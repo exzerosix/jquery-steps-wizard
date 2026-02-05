@@ -31,7 +31,7 @@ A flexible and feature-rich jQuery plugin for creating step-by-step wizard forms
 ## Installation
 
 ### Download
-Download the `jquery.stepy.js` file and include it in your project.
+Download the `jquery-steps-wizard.js` file and include it in your project.
 
 ### CDN
 ```html
@@ -41,8 +41,8 @@ Download the `jquery.stepy.js` file and include it in your project.
 <!-- jQuery Validation (optional, for validation feature) -->
 <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
 
-<!-- Stepy Plugin -->
-<script src="path/to/jquery.stepy.js"></script>
+<!-- JQuery Steps Wizard Plugin -->
+<script src="path/to/jquery-steps-wizard.js"></script>
 ```
 
 ## Basic Usage
@@ -73,7 +73,7 @@ Download the `jquery.stepy.js` file and include it in your project.
 
 ### JavaScript Initialization
 ```javascript
-$('#myForm').stepy({
+$('#myForm').jsteps({
     backLabel: '← Previous',
     nextLabel: 'Next →',
     validate: true
@@ -105,7 +105,7 @@ $('#myForm').stepy({
 #### `step(index)`
 Navigate to a specific step (1-based index).
 ```javascript
-$('#myForm').stepy('step', 3); // Go to step 3
+$('#myForm').jsteps('step', 3); // Go to step 3
 ```
 
 ### Step Control Methods
@@ -113,31 +113,31 @@ $('#myForm').stepy('step', 3); // Go to step 3
 #### `skipStep(step)`
 Skip a specific step.
 ```javascript
-$('#myForm').stepy('skipStep', 5); // Skip step 5
+$('#myForm').jsteps('skipStep', 5); // Skip step 5
 ```
 
 #### `unskipStep(step)`
 Unskip/enable a previously skipped step.
 ```javascript
-$('#myForm').stepy('unskipStep', 5); // Enable step 5
+$('#myForm').jsteps('unskipStep', 5); // Enable step 5
 ```
 
 #### `setSkipSteps(steps)`
 Set multiple steps to skip at once.
 ```javascript
-$('#myForm').stepy('setSkipSteps', [3, 5, 7]); // Skip steps 3, 5, and 7
+$('#myForm').jsteps('setSkipSteps', [3, 5, 7]); // Skip steps 3, 5, and 7
 ```
 
 #### `clearSkipSteps()`
 Clear all skipped steps.
 ```javascript
-$('#myForm').stepy('clearSkipSteps'); // Enable all steps
+$('#myForm').jsteps('clearSkipSteps'); // Enable all steps
 ```
 
 #### `getSkippedSteps()`
 Get array of currently skipped steps.
 ```javascript
-var skipped = $('#myForm').stepy('getSkippedSteps');
+var skipped = $('#myForm').jsteps('getSkippedSteps');
 console.log(skipped); // [3, 5, 7]
 ```
 
@@ -147,20 +147,20 @@ console.log(skipped); // [3, 5, 7]
 Add a new step to the form.
 ```javascript
 var newStep = '<fieldset title="New Step"><legend>New</legend><input type="text" /></fieldset>';
-$('#myForm').stepy('addStep', newStep, 2); // Insert at position 2
+$('#myForm').jsteps('addStep', newStep, 2); // Insert at position 2
 ```
 
 #### `removeStep(index)`
 Remove a step from the form.
 ```javascript
-$('#myForm').stepy('removeStep', 3); // Remove step 3
+$('#myForm').jsteps('removeStep', 3); // Remove step 3
 ```
 
 ## Examples
 
 ### Example 1: Basic Form with Validation
 ```javascript
-$('#registrationForm').stepy({
+$('#registrationForm').jsteps({
     backLabel: '← Previous',
     nextLabel: 'Continue →',
     validate: true,
@@ -173,16 +173,16 @@ $('#registrationForm').stepy({
 
 ### Example 2: Conditional Step Skipping
 ```javascript
-$('#surveyForm').stepy({
+$('#surveyForm').jsteps({
     next: async function(index) {
         // Skip step 3 if user selects "No" on step 2
         if (index === 3) {
             var answer = $('input[name="hasExperience"]:checked').val();
             if (answer === 'no') {
-                $(this).stepy('skipStep', 3);
+                $(this).jsteps('skipStep', 3);
                 return 4; // Jump to step 4
             } else {
-                $(this).stepy('unskipStep', 3);
+                $(this).jsteps('unskipStep', 3);
             }
         }
         return index;
@@ -192,23 +192,23 @@ $('#surveyForm').stepy({
 
 ### Example 3: Dynamic Step Control
 ```javascript
-$('#wizardForm').stepy({
+$('#wizardForm').jsteps({
     validate: true
 });
 
 // Enable/disable steps based on checkbox
 $('#enableAdvanced').change(function() {
     if ($(this).is(':checked')) {
-        $('#wizardForm').stepy('unskipStep', 4);
+        $('#wizardForm').jsteps('unskipStep', 4);
     } else {
-        $('#wizardForm').stepy('skipStep', 4);
+        $('#wizardForm').jsteps('skipStep', 4);
     }
 });
 ```
 
 ### Example 4: Async Validation
 ```javascript
-$('#orderForm').stepy({
+$('#orderForm').jsteps({
     next: async function(index) {
         if (index === 2) {
             // Async API call to validate data
@@ -239,7 +239,7 @@ async function validateWithServer() {
 
 ### Example 5: Custom Callbacks
 ```javascript
-$('#myForm').stepy({
+$('#myForm').jsteps({
     select: function(index) {
         console.log('Now on step:', index);
     },
@@ -265,7 +265,7 @@ $('#myForm').stepy({
 ### Basic CSS
 ```css
 /* Tab navigation */
-.stepy-titles {
+.jsteps-titles {
     list-style: none;
     display: flex;
     gap: 10px;
@@ -273,7 +273,7 @@ $('#myForm').stepy({
     margin-bottom: 20px;
 }
 
-.stepy-titles li {
+.jsteps-titles li {
     flex: 1;
     padding: 10px;
     background: #f0f0f0;
@@ -282,17 +282,17 @@ $('#myForm').stepy({
     transition: all 0.3s;
 }
 
-.stepy-titles li:hover {
+.jsteps-titles li:hover {
     background: #e0e0e0;
 }
 
-.stepy-titles li.current-step {
+.jsteps-titles li.current-step {
     background: #007bff;
     color: white;
     font-weight: bold;
 }
 
-.stepy-titles li.disabled-step {
+.jsteps-titles li.disabled-step {
     background: #ddd;
     color: #999;
 }
