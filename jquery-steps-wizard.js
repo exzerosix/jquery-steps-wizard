@@ -30,10 +30,10 @@
     var e = { 
         init: function (a) { 
             return this.each((function () { 
-                var i = t.extend({}, t.fn.stepy.defaults, a), 
+                var i = t.extend({}, t.fn.jsteps.defaults, a), 
                     n = t(this).data("options", i), 
                     r = n.attr("id"); 
-                r || (r = "stepy-" + t("." + n.attr("class")).index(this), n.attr("id", r));
+                r || (r = "jsteps-" + t("." + n.attr("class")).index(this), n.attr("id", r));
                 // Initialize skipped steps array
                 n.data("skippedSteps", i.skipSteps || []);
                 e._build.call(n) 
@@ -94,9 +94,9 @@
             var a = this, 
                 i = a.data("options"), 
                 n = a.attr("id"), 
-                r = t("<ul/>", { id: n + "-titles", class: "stepy-titles" }); 
+                r = t("<ul/>", { id: n + "-titles", class: "jsteps-titles" }); 
             i.titleTarget ? t(i.titleTarget).html(r) : r.insertBefore(a), 
-            i.validate && (jQuery.validator.setDefaults({ ignore: i.ignore }), a.append('<div class="stepy-error"/>')),
+            i.validate && (jQuery.validator.setDefaults({ ignore: i.ignore }), a.append('<div class="jsteps-error"/>')),
             // Hide the finish button initially
             a.find(".finish").hide(),
             e._renderSteps.call(a) 
@@ -204,7 +204,7 @@
             }).click((async function () { 
                 if (r.validate) { 
                     var l = t("#" + n + "-step-" + a); 
-                    if (t(".stepy-error").empty(), !l.find(":input").valid()) return !1 
+                    if (t(".jsteps-error").empty(), !l.find(":input").valid()) return !1 
                 } 
                 var s = await e._runCallback.call(i, r.next, a + 2); 
                 !1 !== s && ("number" == typeof s ? e.step.call(i, s) : e.step.call(i, a + 2)) 
@@ -253,10 +253,10 @@
             a 
         } 
     }; 
-    t.fn.stepy = function (a) { 
+    t.fn.jsteps = function (a) { 
         return e[a] ? e[a].apply(this, Array.prototype.slice.call(arguments, 1)) : "object" != typeof a && a ? void t.error("Method " + a + " does not exist!") : e.init.apply(this, arguments) 
     }, 
-    t.fn.stepy.defaults = { 
+    t.fn.jsteps.defaults = { 
         back: void 0, 
         backLabel: "&lt; Back", 
         next: void 0, 
